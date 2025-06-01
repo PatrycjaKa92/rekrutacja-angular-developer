@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-title>{{ company?.name || 'KLG test task' }}</mat-card-title>
+  <mat-card-subtitle>{{ company?.country }}</mat-card-subtitle>
+  <mat-card-content>
+    <p>Phones: {{ company?.phones?.join(', ') }}</p>
+    <mat-divider></mat-divider>
+
+    <ng-container *ngIf="items.length > 0; else noItems">
+      <mat-list>
+        <mat-list-item *ngFor="let item of items">
+          <div class="w-full flex justify-between">
+            <span>{{ item.name }} (x{{ item.count }})</span>
+            <span>{{ item.price * item.count | currency }}</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-divider></mat-divider>
+      <h3 class="total">Total: {{ total | currency }}</h3>
+    </ng-container>
+
+    <ng-template #noItems>
+      <p class="text-muted">No items</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
+
