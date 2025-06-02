@@ -1,13 +1,16 @@
 <mat-card>
-  <mat-card-title>{{ company?.name || 'KLG test task' }}</mat-card-title>
-  <mat-card-subtitle>{{ company?.country }}</mat-card-subtitle>
+  <mat-card-title>{{ (company$ | async)?.name }}</mat-card-title>
+  <mat-card-subtitle>{{ (company$ | async)?.country }}</mat-card-subtitle>
   <mat-card-content>
-    <p>Phones: {{ company?.phones?.join(', ') }}</p>
+    <ng-container *ngIf="company$ | async as company">
+
+      <p>Phones: {{ company.phones.join(', ') }}</p></ng-container>
+
     <mat-divider></mat-divider>
 
-    <ng-container *ngIf="items.length > 0; else noItems">
+    <ng-container *ngIf="(items$ | async); else noItems">
       <mat-list>
-        <mat-list-item *ngFor="let item of items">
+        <mat-list-item *ngFor="let item of (items$ | async)">
           <div class="w-full flex justify-between">
             <span>{{ item.name }} (x{{ item.count }})</span>
             <span>{{ item.price * item.count | currency }}</span>
@@ -16,8 +19,9 @@
       </mat-list>
 
       <mat-divider></mat-divider>
-      <h3 class="total">Total: {{ total | currency }}</h3>
+      <h3 class="total">Total: {{ total$ | async | currency }}</h3>
     </ng-container>
+
 
     <ng-template #noItems>
       <p class="text-muted">No items</p>
